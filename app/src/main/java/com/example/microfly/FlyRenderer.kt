@@ -118,7 +118,7 @@ fun FlyRenderer(modifier: Modifier = Modifier) {
     val floor = remember(engine) {
         CubeNode(
             engine,
-            size = Size(BOX_HALF * 2.4f, 0.1f, BOX_HALF * 2.4f),
+            size = Size(BOX_HALF * 14f, 0.1f, BOX_HALF * 14f),
             center = Position(0f, 0f, 0f),
             materialInstance = materialLoader.createColorInstance(Color(0xFF1B2A30), metallic = 0f, roughness = 0.15f, reflectance = 0.8f)
         ).apply { position = Position(0f, -BOX_HALF - 0.1f, 0f) }

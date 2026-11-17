@@ -8,3 +8,5 @@ Steps:
 The workflow installs Gradle 8.9 itself, so no gradlew / wrapper files are needed.
 `app/src/main/assets/models/fly.glb` is a simple procedural fly (nodes Wing_L / Wing_R, +Z forward).
 Replace it with a detailed model if you like (keep the wing node names).
+
+`tools/make_fly.py` regenerates `fly.glb` (python + numpy only): `python tools/make_fly.py` then copy fly.glb to app/src/main/assets/models/.
