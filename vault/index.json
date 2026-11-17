@@ -1,0 +1,36 @@
+{
+  "version": 1,
+  "repo": "Hamidsj1/cloud-files1",
+  "branch": "main",
+  "updatedAt": "2026-11-17T15:44:45Z",
+  "count": 1,
+  "note": "فهرست فایل‌ها و شناسنامهٔ هرکدام؛ هر مورد یک url مستقیم دارد.",
+  "files": [
+    {
+      "id": "ee520205",
+      "name": "files-20261117-1914.zip",
+      "format": "zip",
+      "mime": "application/zip",
+      "kind": "archive",
+      "size": 8465455,
+      "sha256": "e26c36b7e4a3a3a0c8f831efd819a1e0b9c21cd672b9ad2c607f9c4bed17a886",
+      "uploadedAt": "2026-11-17T15:44:36Z",
+      "updatedAt": "2026-11-17T15:44:36Z",
+      "title": "files-20261117-1914",
+      "description": "",
+      "tags": [],
+      "info": {
+        "entries": 5,
+        "contents": [
+          "IMG_20261117_183544.jpg",
+          "IMG_20261117_183537.jpg",
+          "IMG_20261117_183533.jpg",
+          "IMG_20261117_183527.jpg",
+          "IMG_20261117_183523.jpg"
+        ]
+      },
+      "path": "vault/files/files-20261117-1914.zip",
+      "url": "https://raw.githubusercontent.com/Hamidsj1/cloud-files1/main/vault/files/files-20261117-1914.zip"
+    }
+  ]
+}
