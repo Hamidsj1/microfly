@@ -22,7 +22,6 @@ import io.github.sceneview.node.CubeNode
 import io.github.sceneview.node.ModelNode
 import io.github.sceneview.rememberEngine
 import io.github.sceneview.rememberMaterialLoader
-import io.github.sceneview.rememberModelInstance
 import io.github.sceneview.rememberModelLoader
 import io.github.sceneview.rememberCameraNode
 import io.github.sceneview.rememberMainLightNode
@@ -103,7 +102,9 @@ fun FlyRenderer(modifier: Modifier = Modifier) {
     val cameraNode = rememberCameraNode(engine) { position = Position(0f, 3f, 7f) }
     val mainLight = rememberMainLightNode(engine) { intensity = 110_000f }
     val childNodes = rememberNodes()
-    val flyInstance = rememberModelInstance(modelLoader, "models/fly.glb")  // null while loading
+    val flyInstance: ModelInstance? = remember(modelLoader) {
+        try { modelLoader.createModelInstance("models/fly.glb") } catch (e: Exception) { null }
+    }
 
     val density = LocalDensity.current.density
     val physics = remember { PhysicsManager(BOX_HALF, BOX_HALF, BOX_HALF, FLY_RADIUS) }
@@ -151,13 +152,6 @@ fun FlyRenderer(modifier: Modifier = Modifier) {
             childNodes = childNodes,
             mainLightNode = mainLight,
             cameraManipulator = null,                   // we run our own orbit camera
-            onViewCreated = {
-                // Adaptive rendering: dynamic resolution keeps ~60 FPS on weaker GPUs.
-                dynamicResolutionOptions = dynamicResolutionOptions.apply { enabled = true }
-                // Cheap look: no SSAO / bloom.
-                ambientOcclusionOptions = ambientOcclusionOptions.apply { enabled = false }
-                bloomOptions = bloomOptions.apply { enabled = false }
-            },
             onFrame = { frameNanos ->
                 val dt = if (lastNanos[0] == 0L) 0.016f
                          else ((frameNanos - lastNanos[0]) * 1e-9f).coerceIn(0.001f, 0.05f)
