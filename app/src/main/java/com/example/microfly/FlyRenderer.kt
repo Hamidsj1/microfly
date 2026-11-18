@@ -5,12 +5,14 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import com.google.android.filament.Engine
 import io.github.sceneview.Scene
@@ -110,6 +112,9 @@ fun FlyRenderer(modifier: Modifier = Modifier) {
     val physics = remember { PhysicsManager(BOX_HALF, BOX_HALF, BOX_HALF, FLY_RADIUS) }
     val brain = remember { FlyBehaviorController(physics) }
     val orbit = remember { OrbitCamera() }
+    val appContext = LocalContext.current.applicationContext
+    val sound = remember { FlySound(appContext) }
+    DisposableEffect(sound) { onDispose { sound.release() } }
     val touch = remember { TouchHandler(density) }
     val lastNanos = remember { LongArray(1) }           // plain array: no recomposition per frame
     val yawState = remember { floatArrayOf(0f, 0f) }    // [smoothed yaw, wing phase]
@@ -160,6 +165,11 @@ fun FlyRenderer(modifier: Modifier = Modifier) {
                 // 1) AI decides accelerations, 2) physics integrates + collides
                 brain.update(dt)
                 physics.step(dt)
+                sound.update(
+                    brain.state,
+                    sqrt(physics.vx * physics.vx + physics.vy * physics.vy + physics.vz * physics.vz),
+                    dt
+                )
 
                 // 3) Fly pose is in WORLD space -> unaffected by camera orbit.
                 val speed2 = physics.vx * physics.vx + physics.vz * physics.vz

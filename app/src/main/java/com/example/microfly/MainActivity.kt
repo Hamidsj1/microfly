@@ -15,4 +15,7 @@ class MainActivity : ComponentActivity() {
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         setContent { FlyRenderer(Modifier.fillMaxSize()) }
     }
+
+    override fun onPause() { FlySound.current?.pause(); super.onPause() }
+    override fun onResume() { super.onResume(); FlySound.current?.resume() }
 }
